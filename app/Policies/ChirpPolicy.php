@@ -45,7 +45,8 @@ class ChirpPolicy
      */
     public function delete(User $user, Chirp $chirp): bool
     {
-        //
+        // updateメソッドのロジックと同じなので呼び出す
+        return $this->update($user,$chirp);
     }
 
     /**
