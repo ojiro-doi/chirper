@@ -71,9 +71,11 @@ class ChirpController extends Controller
     {
         Gate::authorize('update',$chirp);
 
-        $validated=$request->validate(['message'=>'required|stirng|max:255',]);
+        $validated=$request->validate(['message'=>'required|string|max:255',]);
 
-        return redirect(route('chirp.eindex'));
+        $chirp->update($validated);
+
+        return redirect(route('chirps.index'));
     }
 
     /**
