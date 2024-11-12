@@ -6,6 +6,7 @@ use App\Models\Chirp;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use Illuminate\Http\Response;
+use Illuminate\Support\Facades\Gate;
 use Illuminate\View\View;
 
 class ChirpController extends Controller
@@ -53,17 +54,26 @@ class ChirpController extends Controller
     /**
      * Show the form for editing the specified resource.
      */
-    public function edit(Chirp $chirp)
+    public function edit(Chirp $chirp):View
     {
-        //
+
+        Gate::authorize('update', $chirp);
+
+        return view('chirps.edit',[
+            'chirp'=>$chirp,
+        ]);
     }
 
     /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request, Chirp $chirp)
+    public function update(Request $request, Chirp $chirp):RedirectResponse
     {
-        //
+        Gate::authorize('update',$chirp);
+
+        $validated=$request->validate(['message'=>'required|stirng|max:255',]);
+
+        return redirect(route('chirp.eindex'));
     }
 
     /**
