@@ -15,7 +15,16 @@
         </div>
         @foreach ($photos as $photo)
             <div class="col-md-3 mb-2 mt-2">
-                <img src="{{ asset('storage/' . $photo->image_path) }}" alt="upload image" width="80px">
+                <span class="text-gray-500">{{ $photo->user->name }}</span>
+                <img src="{{ asset('storage/' . $photo->image_path) }}" alt="upload image" width="120px">
+                @if (auth()->user()->id === $photo->user_id)
+                    <form method="POST" action="{{ route('photos.destroy', $photo) }}">
+                        @csrf
+                        @method('DELETE')
+                        <button type="submit"
+                            onclick="return confirm('Are you sure you want to delete this photo?') ">削除</button>
+                    </form>
+                @endif
             </div>
         @endforeach
     </div>
