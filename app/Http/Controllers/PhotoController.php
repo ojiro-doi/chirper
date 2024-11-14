@@ -5,6 +5,8 @@ namespace App\Http\Controllers;
 use App\Models\Photo;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Gate;
+use Illuminate\Support\Facades\Storage;
 use Illuminate\View\View;
 
 class PhotoController extends Controller
@@ -71,8 +73,18 @@ class PhotoController extends Controller
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy(Photo $photo)
+    public function destroy(Photo $photo):RedirectResponse
     {
-        //
+        Gate::authorize('delete',$photo);
+
+        // ストレージから削除
+        if(Storage::disk('public')->exists($photo->image_path)){
+            Storage::disk('public')->delete($photo->image_path);
+        }
+
+        // モデルから削除
+        $photo->delete();
+
+        return redirect(route('photos.index'));
     }
 }
