@@ -5,7 +5,7 @@ document.addEventListener("DOMContentLoaded", function () {
     submitButton.style.display = "none";
 
     imageInput.addEventListener("change", function () {
-        // 画像が選択されているかどうかを確認し、ボタンの状態を変更
+        // 画像が選択されているかどうかを確認しボタンの状態を変更
         if (imageInput.files && imageInput.files.length > 0) {
             submitButton.style.display = "block";
         } else {
